@@ -673,7 +673,7 @@ h1 {
 
   function card(s) {
     var facts = s.facts && s.facts.length ? '<ul class="facts">' + s.facts.map(function (f) { return '<li>' + icon(f[0]) + f[1] + '</li>'; }).join('') + '</ul>' : '';
-    var vid = (s.url.match(/[?&]v=([\w-]+)/) || [])[1];
+    var vid = (s.url.match(/[?&]v=([\w-]+)/) || s.url.match(/youtu\.be\/([\w-]+)/) || [])[1];
     var thumb = vid ? '<a class="thumb" href="' + s.url + '" target="_blank" rel="noopener" aria-label="영상 보러 가기"><img src="https://img.youtube.com/vi/' + vid + '/mqdefault.jpg" alt="" loading="lazy" onerror="this.parentNode.hidden=true"></a>' : '';
     var kvRows = [['노린 어종', s.target], ['시간대', s.when], ['물때', s.tide], ['밑걸림', s.bottom]].filter(function (r) { return r[1]; });
     var kv = kvRows.length ? '<ul class="kv">' + kvRows.map(function (r) { return '<li><b>' + r[0] + '</b>' + r[1] + '</li>'; }).join('') + '</ul>' : '';
