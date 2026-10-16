@@ -1,6 +1,9 @@
-<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
 <title>낚건여지도</title>
-<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap">
@@ -74,6 +77,7 @@ h1 {
 .theme-btn { font: inherit; font-size: 14.5px; cursor: pointer; color: var(--ink); background: var(--surface); border: 2px solid var(--edge); border-radius: 999px; padding: 4px 14px; }
 .theme-btn[aria-pressed="true"] { background: var(--on); color: var(--on-ink); }
 .thumb { display: block; border: 2px solid var(--edge); border-radius: 14px; overflow: hidden; aspect-ratio: 16 / 9; background: var(--chip); }
+.thumb[hidden] { display: none; }
 .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .tackle dd { font-family: system-ui, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif; }
 .tagline { margin: 2px 0 0; color: var(--muted); font-size: 15px; }
@@ -174,7 +178,7 @@ h1 {
 .facts svg { width: 20px; height: 20px; flex: none; color: var(--edge); fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 .kv { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 8px; font-size: 14.5px; }
 .kv li { display: inline-flex; align-items: baseline; gap: 6px; background: var(--chip); border: 2px solid var(--line); border-radius: 12px; padding: 2px 10px; }
-.kv b { font-size: 13px; color: var(--muted); font-weight: 700; }
+.kv b { white-space: nowrap; font-size: 13px; color: var(--muted); font-weight: 700; }
 .moments { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .moments a { display: flex; align-items: center; gap: 10px; text-decoration: none; padding: 6px 12px; border: 2px solid var(--line); border-radius: 14px; background: var(--chip); font-size: 15px; transition: border-color .12s; }
 .moments a:hover { border-color: var(--edge); }
@@ -202,6 +206,7 @@ h1 {
 .pick-name { font-family: var(--font-display); font-size: 19px; }
 .pick-hook { word-break: keep-all; text-wrap: balance; }
 .pick-meta { word-break: keep-all; }
+.pill-new { font-family: var(--font-body); font-size: 12px; font-weight: 700; vertical-align: middle; background: var(--accent); color: var(--accent-ink); border: 2px solid var(--edge); border-radius: 999px; padding: 0 8px; }
 .pick-hook { font-size: 15px; color: var(--ink); }
 .pick-meta { font-size: 14px; color: var(--muted); }
 .close-btn { font: inherit; font-size: 14px; cursor: pointer; color: var(--ink); background: var(--chip); border: 2px solid var(--line); border-radius: 999px; padding: 0 14px; }
@@ -246,6 +251,8 @@ h1 {
   * { transition: none !important; scroll-behavior: auto !important; }
 }
 </style>
+</head>
+<body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
@@ -296,7 +303,7 @@ h1 {
           <path class="wave" d="M130 458q10-8 20 0t20 0"/>
           <path class="land" d="M-4 -4H148C158 40 134 80 150 120C166 162 176 200 192 240C208 282 226 326 252 356C268 374 274 392 262 408C250 424 226 428 200 430C140 434 70 440 -4 446Z"/>
           <text class="sea-name" x="296" y="110">동해</text>
-          <text class="sea-name" x="170" y="460">남해</text>
+          <text class="sea-name" x="112" y="462">남해</text>
           <text class="map-text" x="16" y="60">강원도</text>
           <text class="map-text" x="16" y="300">경상남도</text>
 
@@ -317,6 +324,12 @@ h1 {
             <circle cx="236" cy="372" r="26"/>
             <use class="zone-fish" href="#fish" x="225" y="365" width="22" height="14"/>
             <text x="196" y="334">감만CY</text>
+          </g>
+          <g class="zone" data-id="baegunpo" tabindex="0" role="button" aria-label="백운포 체육공원 카드 보기">
+            <circle class="zone-hit" cx="214" cy="434" r="30"/>
+            <circle cx="214" cy="434" r="20"/>
+            <use class="zone-fish" href="#fish" x="204" y="428" width="20" height="12"/>
+            <text class="on-sea" x="214" y="466" text-anchor="middle">백운포</text>
           </g>
           <g class="zone" data-id="seopja" tabindex="0" role="button" aria-label="용호동 섭자리 내항 카드 보기">
             <circle class="zone-hit" cx="292" cy="398" r="34"/>
@@ -418,6 +431,57 @@ h1 {
 (function () {
   var spots = [
     {
+      id: 'baegunpo', fresh: true, hook: '밤엔 묵직한 입질, 아침엔 옆 조사님의 잿방어', region: '부산', regionLabel: '부산 백운포', name: '백운포 체육공원',
+      date: '2026.10.09 (금) 밤 ~ 10.10 (토) 아침', time: '밤 라이트게임, 아침 쇼어지깅',
+      level: 2, levelText: '보통', levelNote: '밤 입질 파악과 아침 메탈지그 캐스팅이 필요해요',
+      lead: '밤에는 라이트게임, 아침에는 라이트 쇼어지깅으로 둘러본 백운포 체육공원이에요. 공원 주차장이 있어서 차 대기는 편해요.',
+      target: '전갱이, 풀치, 삼치',
+      when: '밤 12시 46분~새벽 3시, 새벽 5시 10분~아침',
+      species: [],
+      catches: [],
+      none: '묵직한 입질은 왔지만 랜딩은 못 했어요',
+      tackle: [
+        ['지그헤드', '서티포 스트림헤드 0.8g · 1.3g', false, '', '서티포'],
+        ['웜', '서티포 2인치 반짝이 클리어 · 1.3인치', false, '', '서티포'],
+        ['아침 채비', '30g 메탈지그 (라이트 쇼어지깅)']
+      ],
+      notes: [
+        '공원 주차장이 있어서 주차가 편해요.',
+        '밤에는 시야 확보가 필요해요.',
+        '아침 피딩 때 옆 조사님이 잿방어를 랜딩하는 걸 도왔어요.'
+      ],
+      facts: [['car', '공원 주차장, 주차 편함']],
+      gear: ['서티포'],
+      moments: [[43, '백운포 체육공원 도착, 채비 소개', true], [203, '밤에 온 묵직한 입질, 아쉬운 랜딩', true], [940, '아침 피딩, 옆 조사님 잿방어 랜딩', true]],
+      caution: '아침 메탈지그를 던질 때는 주변 사람과 트레블훅에 주의해 주세요.',
+      url: 'https://www.youtube.com/watch?v=rAPvxfXKTFM'
+    },
+    {
+      id: 'seopja-2', place: 'seopja', fresh: true, hook: '새턴3로 바꾸자 콩갱이가 연타', region: '부산', regionLabel: '부산 용호동', name: '용호동 섭자리 내항 (새벽 편)',
+      date: '2026.10.10 (토) 새벽', time: '새벽 3시쯤 ~ 4시 41분',
+      level: 1, levelText: '쉬움', levelNote: '작은 전갱이와 볼락 손맛 보기 편해요',
+      lead: '백운포에서 옮겨 온 새벽의 섭자리예요. 새턴3 로드로 바꿔 들자 콩갱이(작은 전갱이)가 연달아 올라왔고, 가을 볼락도 만났어요.',
+      target: '전갱이, 풀치, 삼치',
+      when: '새벽 3시쯤 ~ 4시 41분',
+      species: ['전갱이', '볼락'],
+      catches: [{ fish: '전갱이', size: '15cm급 콩갱이 다수' }, { fish: '볼락', size: '9cm쯤' }],
+      tackle: [
+        ['로드', '아부가르시아 새턴3 (교체 뒤 조과가 살아났어요)', true, '', '새턴3'],
+        ['지그헤드', '서티포 스트림헤드 0.8g · 1.3g', false, '', '서티포'],
+        ['웜', '서티포 2인치 반짝이 클리어 · 1.3인치', false, '', '서티포']
+      ],
+      notes: [
+        '새벽이라 사람이 없었어요.',
+        '배가 빠진 자리를 탐사하다가 볼락이 나왔어요.',
+        '냄새가 조금 나요.'
+      ],
+      facts: [['step', '편한 발판']],
+      gear: ['새턴3', '서티포'],
+      moments: [[444, '섭자리로 이동, 새턴3로 교체하고 콩갱이 연타', true], [588, '배 빠진 자리에서 가을 볼락 히트', true]],
+      caution: '수질 때문에 먹는 낚시보다 방생과 손맛 위주를 권해요.',
+      url: 'https://www.youtube.com/watch?v=rAPvxfXKTFM'
+    },
+    {
       id: 'gijang', hook: '낮과 밤으로 둘러본 기장 방파제 두 곳, 루어로 올라온 매퉁이', region: '부산', regionLabel: '부산 기장', name: '기장 칠암·문동 방파제',
       date: '2026.10.03 (토)', time: '낮 2시 반쯤 칠암 → 밤 문동 짬낚',
       level: 2, levelText: '보통', levelNote: '발판과 화장실이 편해요',
@@ -491,7 +555,7 @@ h1 {
       url: 'https://www.youtube.com/watch?v=FwtS6CFDmDk'
     },
     {
-      id: 'seopja', hook: '24cm 뚱전갱이, 그리고 부러진 로드', region: '부산', regionLabel: '부산 용호동', name: '용호동 섭자리 내항',
+      id: 'seopja', hook: '24cm 뚱전갱이, 그리고 부러진 로드', region: '부산', regionLabel: '부산 용호동', name: '용호동 섭자리 내항 (저녁 편)',
       date: '2026.07.07', time: '오후 7:34 출발, 물돌이 시간대 공략',
       level: 1, levelText: '쉬움', levelNote: '도보로 가기 쉽고 발판이 편해요',
       lead: '어민판매장 근처 내항 선착장 일대예요. 큰 기대 없이 던졌는데 발 앞에서 강한 입질이 왔고, 드랙이 풀리는 소리와 함께 20cm가 넘는 뚱전갱이가 올라왔어요.',
@@ -611,7 +675,7 @@ h1 {
     var facts = s.facts && s.facts.length ? '<ul class="facts">' + s.facts.map(function (f) { return '<li>' + icon(f[0]) + f[1] + '</li>'; }).join('') + '</ul>' : '';
     var vid = (s.url.match(/[?&]v=([\w-]+)/) || [])[1];
     var thumb = vid ? '<a class="thumb" href="' + s.url + '" target="_blank" rel="noopener" aria-label="영상 보러 가기"><img src="https://img.youtube.com/vi/' + vid + '/mqdefault.jpg" alt="" loading="lazy" onerror="this.parentNode.hidden=true"></a>' : '';
-    var kvRows = [['노린 어종', s.target], ['물때', s.tide], ['밑걸림', s.bottom]].filter(function (r) { return r[1]; });
+    var kvRows = [['노린 어종', s.target], ['시간대', s.when], ['물때', s.tide], ['밑걸림', s.bottom]].filter(function (r) { return r[1]; });
     var kv = kvRows.length ? '<ul class="kv">' + kvRows.map(function (r) { return '<li><b>' + r[0] + '</b>' + r[1] + '</li>'; }).join('') + '</ul>' : '';
     var mm = s.moments || [];
     var core = mm.filter(function (m) { return m[2]; });
@@ -647,7 +711,7 @@ h1 {
   var intro = '<section class="intro" id="intro"><h2>지도의 원을 누르거나, 아래 목록을 골라 보세요</h2>' +
     '<p>잡은 고기, 쓴 채비, 영상 속 장면이 이 자리에 바로 열려요.</p>' +
     '<ul class="spot-list" id="spot-list">' + spots.map(function (s) {
-      return '<li data-id="' + s.id + '"><button type="button" class="spot-pick" data-pick="' + s.id + '"><span class="pick-name">' + s.name + '</span>' + (s.hook ? '<span class="pick-hook">' + s.hook + '</span>' : '') + '<span class="pick-meta">' + [s.regionLabel, s.date, '초보 난이도 ' + s.levelText].filter(Boolean).join(' · ') + '</span></button></li>';
+      return '<li data-id="' + s.id + '"><button type="button" class="spot-pick" data-pick="' + s.id + '"><span class="pick-name">' + s.name + (s.fresh ? ' <span class="pill-new">NEW</span>' : '') + '</span>' + (s.hook ? '<span class="pick-hook">' + s.hook + '</span>' : '') + '<span class="pick-meta">' + [s.regionLabel, s.date, '초보 난이도 ' + s.levelText].filter(Boolean).join(' · ') + '</span></button></li>';
     }).join('') + '</ul>' +
     '<p class="empty" id="empty" hidden>고른 조건에 맞는 포인트가 아직 없어요. 다른 조건을 눌러 보세요.</p></section>';
   cardsEl.innerHTML = intro + spots.map(card).join('');
@@ -828,4 +892,5 @@ h1 {
 })();
 </script>
 
-</body></html>
+</body>
+</html>
